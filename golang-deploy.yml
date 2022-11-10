@@ -87,4 +87,9 @@
       register: deploy
     - debug:
         msg: '{{ deploy.stdout_lines }}'
+    - name: Check RUnning App
+      shell: ps aux | grep go
+      register: go-app
+    - debug:
+        msg: '{{ go-app.stdout_lines }}'
 
