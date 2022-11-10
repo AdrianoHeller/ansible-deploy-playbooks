@@ -8,4 +8,7 @@ ip3
 [node-app:vars]
 app_source=placeholder
 app_entrypoint=placeholder
-app_folder_name=
+app_folder_name=placeholder
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_user=ubuntu
+ansible_python_interpreter=auto

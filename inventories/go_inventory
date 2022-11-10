@@ -8,3 +8,6 @@ ip3
 is_compressed=true
 src_files=/path/to/app/source
 dest_files=/path/to/dest/files
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_user=ubuntu
+ansible_python_interpreter=auto
