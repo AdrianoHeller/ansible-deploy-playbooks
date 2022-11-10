@@ -1,0 +1,32 @@
+---
+- name: Update Server Dependencies
+  hosts: all
+  tasks:
+    - name: Update Apt cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+---
+- name: Download and Install Go
+  hosts: all
+  tasks:
+    - name: Download Go 1.19 Stable
+      get_url:
+        url: https://go.dev/dl/go1.19.3.linux-amd64.tar.gz
+        dest: /root/
+---
+- name: Install Go
+  hosts: all
+  tasks:
+    - name: Install Go 1.19
+      command: tar -C /usr/local -xzf go1.19.3.linux-amd64.tar.gz
+    - name: Add Go to profile
+      lineinfile:
+        path: /etc/profile
+        line: export PATH=$PATH:/usr/local/go/bin
+    - name: Check Installation
+      shell: go version
+      register: response
+    - debug:
+        msg: '{{response.stdout_lines}}'

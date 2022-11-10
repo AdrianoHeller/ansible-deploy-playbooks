@@ -1,0 +1,55 @@
+---
+- name: Configure Package management
+  hosts: all
+  tasks:
+    - name: Update Apt cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+---
+- name: Install Nodejs
+  hosts: all
+  tasks:
+    - name: Install Nodejs and NPM
+      apt:
+        pkg:
+          - nodejs
+          - npm
+    - name: Copy Files to Server
+      copy:
+        src: '{{app_source}}'
+        dest: /root/
+        remote_src: true
+---
+- name: Create Nodejs Deploy User
+  hosts: all
+  tasks:
+    - name: Create User
+      user:
+        name: nodejs
+        comment: deployment user
+        group: admin
+---
+- name: Deploy App
+  become: True
+  become_user: nodejs
+  hosts: all
+  tasks:
+    - name: Install dependencies
+      npm:
+        path: '/home/nodejs/{{app_folder_name}}/{{app_entrypoint}}'
+    - name: Run Application
+      command:
+        chdir: '/home/nodejs/{{app_folder_name}}'
+        cmd: "node '{{app_entrypoint}}'"
+      async: 1000
+      poll: 0
+    - name: Healthcheck
+      shell: ps aux | grep node
+      register: app_status
+    - debug:
+        msg: '{{app_status.stdout_lines}}'
+
+
+
