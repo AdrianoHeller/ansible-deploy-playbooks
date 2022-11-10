@@ -18,6 +18,8 @@
 ---
 - name: Install Go
   hosts: all
+  vars_files:
+    - vars/go-vars
   tasks:
     - name: Install Go 1.19
       command: tar -C /usr/local -xzf go1.19.3.linux-amd64.tar.gz
@@ -42,6 +44,8 @@
 ---
 - name: Copy Artifacts to Server
   hosts: all
+  vars_files:
+    - vars/go-vars
   tasks:
     - name: Extract and Copy Source Folder
       unarchive:
@@ -56,6 +60,8 @@
 ---
 - name: Init Go Module
   hosts: all
+  vars_files:
+    - vars/go-vars
   tasks:
     - name: Check Installation
       shell: go mod init {{ mod_name }}
@@ -65,6 +71,8 @@
 ---
 - name: Install Dependencies
   hosts: all
+  vars_files:
+    - vars/go-vars
   tasks:
     - name: Check Installation
       shell: go mod tidy
@@ -75,6 +83,8 @@
 - name: Compile App and Deploy
   become: True
   become_user: deployer
+  vars_files:
+    - vars/go-vars
   hosts: all
   tasks:
     - name: Compile App
