@@ -1,1 +1,11 @@
-app_source=placeholder app_entrypoint=placeholder app_folder_name=
+[node-app]
+ip1
+ip2
+ip3
+...
+
+
+[node-app:vars]
+app_source=placeholder
+app_entrypoint=placeholder
+app_folder_name=

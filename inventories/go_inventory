@@ -1,1 +1,10 @@
-is_compressed=true src_files=/path/to/app/source dest_files=/path/to/dest/files
+[go-server]
+ip1
+ip2
+ip3
+...
+
+[go-server:vars]
+is_compressed=true
+src_files=/path/to/app/source
+dest_files=/path/to/dest/files
