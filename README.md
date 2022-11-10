@@ -22,5 +22,5 @@ var2=val
 
 Run the playbook:
 ```shell
-ansisble-playbook -i inventories/<lang>_inventory <lang>-deploy.yml
+ansible-playbook -i inventories/<lang>_inventory <lang>-deploy.yml
 ```
