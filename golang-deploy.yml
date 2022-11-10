@@ -29,7 +29,7 @@
       shell: go version
       register: response
     - debug:
-        msg: '{{response.stdout_lines}}'
+        msg: "{{response.stdout_lines}}"
 ---
 - name: Create Deployment User
   hosts: all
@@ -45,23 +45,23 @@
   tasks:
     - name: Extract and Copy Source Folder
       unarchive:
-        src: '{{ src_files }}'
+        src: "{{ src_files }}"
         dest: /root/
-      when: '{{ is_compressed }}'
+      when: "{{ is_compressed }}"
     - name: Copy Uncompressed Folder
       copy:
-        src: '{{ src_files }}'
-        dest: '{{ dest_files }}'
+        src: "{{ src_files }}"
+        dest: "{{ dest_files }}"
         remote_src: true
 ---
 - name: Init Go Module
   hosts: all
   tasks:
     - name: Check Installation
-      shell: 'go mod init {{ mod_name }}'
+      shell: go mod init {{ mod_name }}
       register: response
     - debug:
-        msg: '{{ response.stdout_lines }}'
+        msg: "{{ response.stdout_lines }}"
 ---
 - name: Install Dependencies
   hosts: all
@@ -70,7 +70,7 @@
       shell: go mod tidy
       register: response
     - debug:
-        msg: '{{ response.stdout_lines }}'
+        msg: "{{ response.stdout_lines }}"
 ---
 - name: Compile App and Deploy
   become: True
@@ -78,18 +78,18 @@
   hosts: all
   tasks:
     - name: Compile App
-      shell: 'go build -o {{ mod_name }} main.go'
+      shell: go build -o {{ mod_name }} main.go
       register: response
     - debug:
-        msg: '{{ response.stdout_lines }}'
+        msg: "{{ response.stdout_lines }}"
     - name: Deploy App
-      shell: './{{ mod_name }}'
+      shell: ./{{ mod_name }}
       register: deploy
     - debug:
-        msg: '{{ deploy.stdout_lines }}'
+        msg: "{{ deploy.stdout_lines }}"
     - name: Check Running App
       shell: ps aux | grep go
       register: go-app
     - debug:
-        msg: '{{ go-app.stdout_lines }}'
+        msg: "{{ go-app.stdout_lines }}"
 
