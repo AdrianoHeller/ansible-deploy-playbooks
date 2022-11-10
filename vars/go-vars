@@ -1,0 +1,3 @@
+is_compressed: true
+src_files: /path/to/app/source
+dest_files: /path/to/dest/files
